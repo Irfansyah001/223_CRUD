@@ -39,3 +39,23 @@ app.get('/api/mahasiswa', (req, res) => { //define a route to get all mahasiswa
         res.json(results); //send the results as a JSON response
     });
 });
+
+app.post('/api/mahasiswa', (req, res) => { //define a route to add a new mahasiswa
+    const { nama, nim, kelas, prodi } = req.body; //get the data from the request body
+
+    if (!nama || !nim || !kelas || !prodi) { //validate the input data
+        return res.status(400).send('All fields are required'); //send a bad request response
+    }
+
+    db.query( //insert the new mahasiswa into the database
+        'INSERT INTO mahasiswa (nama, nim, kelas, prodi) VALUES (?, ?, ?, ?)', //SQL query with placeholders
+        [nama, nim, kelas, prodi], //data to be inserted
+        (err, result) => { //callback function
+            if (err) { //if there is an error
+                console.error(err); //log the error message
+                return res.status(500).json('Error adding mahasiswa'); //send an error response
+            }
+            res.status(201).json({ message: 'Mahasiswa added successfully', id: result.insertId }); //send a success response
+        }  
+    );
+});
