@@ -59,3 +59,19 @@ app.post('/api/mahasiswa', (req, res) => { //define a route to add a new mahasis
         }  
     );
 });
+
+app.put('/api/mahasiswa/:id', (req, res) => { //define a route to update a mahasiswa
+    const userId = req.params.id; //get the id from the request parameters
+    const { nama, nim, kelas, prodi } = req.body; //get the data from the request body
+    db.query( //update the mahasiswa in the database
+        'UPDATE mahasiswa SET nama = ?, nim = ?, kelas = ?, prodi = ? WHERE id = ?', //SQL query with placeholders
+        [nama, nim, kelas, prodi, userId], //data to be updated
+        (err, result) => { //callback function
+            if (err) { //if there is an error
+                console.error(err); //log the error message
+                return res.status(500).json('Error updating mahasiswa'); //send an error response
+            }
+            res.json({ message: 'Mahasiswa updated successfully' }); //send a success response
+        }
+    );
+});
