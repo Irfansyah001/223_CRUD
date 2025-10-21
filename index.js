@@ -18,5 +18,5 @@ const db = mysql.createConnection({ //create a connection to the database
   user: 'root', //database user
   password: '', //database password
   database: 'biodata', //database name
-
+  port: 3306 //database port
 });
