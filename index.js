@@ -75,3 +75,17 @@ app.put('/api/mahasiswa/:id', (req, res) => { //define a route to update a mahas
         }
     );
 });
+
+app.delete('/api/mahasiswa/:id', (req, res) => { //define a route to delete a mahasiswa
+    const userId = req.params.id; //get the id from the request parameters
+    db.query( //delete the mahasiswa from the database
+        'DELETE FROM mahasiswa WHERE id = ?', [userId], //SQL query with placeholder
+        (err, result) => { //callback function
+            if (err) { //if there is an error
+                console.error(err); //log the error message
+                return res.status(500).json('Error deleting mahasiswa'); //send an error response
+            }
+            res.json({ message: 'Mahasiswa deleted successfully' }); //send a success response
+        }
+    );
+});
