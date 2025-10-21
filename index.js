@@ -28,3 +28,14 @@ db.connect((err) => { //connect to the database
   }
     console.log('Connected to the database.'); //log a success message
 });
+
+app.get('/api/mahasiswa', (req, res) => { //define a route to get all mahasiswa
+    db.query('SELECT * FROM mahasiswa', (err, results) => { //query the database
+        if (err) { //if there is an error
+            console.error('Error fetching data: ', + err.stack); //log the error message
+            res.status(500).send('Error fetching data'); //send an error response
+            return;
+        }
+        res.json(results); //send the results as a JSON response
+    });
+});
